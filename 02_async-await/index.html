@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API</title>
+</head>
+<body>
+    <input type="text" id="search" placeholder="Enter category">
+    <button id="btn">Search</button>
+    <img src="#">
+    <script>
+        const input=document.querySelector("#search");
+        const btn = document.querySelector("#btn");
+        const img = document.querySelector("img");
+        btn.addEventListener("click",async ()=>{
+            try{
+                const response= await fetch(`https://api.giphy.com/v1/gifs/search?api_key=JchyyFhfDK0JnJ37lRsDLRLRVl11XRvH&q=${input.value}&rating=g`);
+                const objectData = await response.json();
+                img.src=objectData.data[0].images.original.url;
+            }catch(error){
+                console.log(error);
+            }
+        })
+    </script>
+</body>
+</html>
