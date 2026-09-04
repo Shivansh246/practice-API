@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API</title>
+</head>
+<body>
+    <img src="#">
+    <script>
+        const img = document.querySelector("img");
+        fetch('https://api.giphy.com/v1/gifs/search?api_key=JchyyFhfDK0JnJ37lRsDLRLRVl11XRvH&q=cats&rating=g')
+            .then(function(response){
+                return response.json();
+            }).then(function(response){
+                img.src=response.data[0].images.original.url
+            });
+    </script>
+</body>
+</html>
