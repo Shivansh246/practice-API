@@ -6,15 +6,21 @@
     <title>API</title>
 </head>
 <body>
+    <input type="text" id="search" placeholder="Enter category">
+    <button id="btn">Search</button>
     <img src="#">
     <script>
+        const input=document.querySelector("#search");
+        const btn = document.querySelector("#btn");
         const img = document.querySelector("img");
-        fetch('https://api.giphy.com/v1/gifs/search?api_key=JchyyFhfDK0JnJ37lRsDLRLRVl11XRvH&q=cats&rating=g')
-            .then(function(response){
-                return response.json();
-            }).then(function(response){
-                img.src=response.data[0].images.original.url
-            });
+        btn.addEventListener("click",()=>{
+            fetch(`https://api.giphy.com/v1/gifs/search?api_key=JchyyFhfDK0JnJ37lRsDLRLRVl11XRvH&q=${input.value}&rating=g`)
+                .then(function(response){
+                    return response.json();
+                }).then(function(response){
+                    img.src=response.data[0].images.original.url
+                });
+        })
     </script>
 </body>
 </html>
