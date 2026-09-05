@@ -20,6 +20,20 @@ function renderData(address,temperature,conditions,feelslike,humidity,windSpeed)
     humidityDiv.textContent=`Humidity: ${humidity}`;
     windSpeedDiv.textContent=`WindSpeed: ${windSpeed}`;
 
+    const toggleBtn = document.createElement("button");
+    toggleBtn.addEventListener("click",(e)=>{
+        if(deg==='F'){
+            deg='C'
+            const newTemp = (temp - 32) * 5/9;
+            temperature.textContent=`Temperature: ${newTemp}&deg;C`;
+        }else{
+            deg='F';
+            const newTemp = (temp * 9/5) + 32;
+            temperature.textContent=`Temperature: ${newTemp}&deg;F`;
+        }
+        renderData();
+    });
+    
     info.appendChild(addressDiv);
     info.appendChild(temperatureDiv);
     info.appendChild(conditionsDiv);
