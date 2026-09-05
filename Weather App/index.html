@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather</title>
-    <link rel="styesheet" href="style.css"> 
+    <link rel="stylesheet" href="style.css"> 
     <script src="script.js" defer></script>
 </head>
 <body>
-    <input type="text" id="InputLocation" required placeholder="Enter location">
-    <button id="LocationSubmitBtn">Submit</button>
-    <div id="info"></div>
+    <div id="app">
+        <div class="search-box">
+            <input type="text" id="InputLocation" required placeholder="Enter location">
+            <button id="LocationSubmitBtn">Submit</button>
+        </div>
+
+        <div id="info"></div>
+    </div>
 </body>
 </html>

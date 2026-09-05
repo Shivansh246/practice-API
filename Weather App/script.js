@@ -2,15 +2,28 @@
 const Inputlocation = document.querySelector("#InputLocation");
 const LocationSubmitBtn = document.querySelector("#LocationSubmitBtn");
 const info=document.querySelector("#info");
+const GIPHY_API_KEY = "JchyyFhfDK0JnJ37lRsDLRLRVl11XRvH";
 
-function renderData(address,temperature,conditions,feelslike,humidity,windSpeed,deg){
+async function renderData(address,temperature,conditions,feelslike,humidity,windSpeed,deg){
+    const gifUrl = await getGif(conditions);
     info.textContent="";
     const addressDiv=document.createElement("div");
+    addressDiv.classList.add("weather-address");
+
     const temperatureDiv=document.createElement("div");
+    temperatureDiv.classList.add("weather-temperature");
+
     const conditionsDiv=document.createElement("div");
+    conditionsDiv.classList.add("weather-condition");
+
     const feelslikeDiv=document.createElement("div");
+    feelslikeDiv.classList.add("weather-detail");
+
     const humidityDiv=document.createElement("div");
+    humidityDiv.classList.add("weather-detail");
+
     const windSpeedDiv=document.createElement("div");
+    windSpeedDiv.classList.add("weather-detail");
 
     addressDiv.textContent=`Address: ${address}`;
     temperatureDiv.textContent=`Temperature: ${temperature}°${deg}`;
@@ -20,6 +33,8 @@ function renderData(address,temperature,conditions,feelslike,humidity,windSpeed,
     windSpeedDiv.textContent=`WindSpeed: ${windSpeed}`;
 
     const toggleBtn = document.createElement("button");
+    toggleBtn.classList.add("toggle-btn");
+
     toggleBtn.textContent="Toggle Temperature";
     toggleBtn.addEventListener("click",(e)=>{
         let newTemp=temperature;
@@ -33,12 +48,17 @@ function renderData(address,temperature,conditions,feelslike,humidity,windSpeed,
         renderData(address,newTemp,conditions,feelslike,humidity,windSpeed,deg);
     });
 
+    const weatherGif = document.createElement("img");
+    weatherGif.src = gifUrl;
+    weatherGif.classList.add("weather-gif");
+
     info.appendChild(addressDiv);
     info.appendChild(temperatureDiv);
     info.appendChild(conditionsDiv);
     info.appendChild(feelslikeDiv);
     info.appendChild(humidityDiv);
     info.appendChild(windSpeedDiv);
+    info.appendChild(weatherGif);
     info.appendChild(toggleBtn);
 }
 async function getData(givenLocation){
@@ -64,6 +84,15 @@ async function getUsefulData(response){
     }catch(error){
         console.log(error);
     }
+}
+async function getGif(condition) {
+    const response = await fetch(
+        `https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_API_KEY}&q=${condition} weather&limit=1`
+    );
+
+    const data = await response.json();
+
+    return data.data[0].images.original.url;
 }
 LocationSubmitBtn.addEventListener("click",(e)=>{
     getData(Inputlocation.value);
