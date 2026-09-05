@@ -4,6 +4,7 @@ const LocationSubmitBtn = document.querySelector("#LocationSubmitBtn");
 const info=document.querySelector("#info");
 
 function renderData(address,temperature,conditions,feelslike,humidity,windSpeed){
+    info.textContent="";
     const addressDiv=document.createElement("div");
     const temperatureDiv=document.createElement("div");
     const conditionsDiv=document.createElement("div");
@@ -14,26 +15,26 @@ function renderData(address,temperature,conditions,feelslike,humidity,windSpeed)
     let temp = temperature;
 
     addressDiv.textContent=`Address: ${address}`;
-    temperatureDiv.textContent=`Temperature: ${temp}&deg;F`;
+    temperatureDiv.textContent=`Temperature: ${temp}&#176;F`;
     conditionsDiv.textContent=`Conditions: ${conditions}`;
     feelslikeDiv.textContent=`Feelslike: ${feelslike}`;
     humidityDiv.textContent=`Humidity: ${humidity}`;
     windSpeedDiv.textContent=`WindSpeed: ${windSpeed}`;
 
     const toggleBtn = document.createElement("button");
+    toggleBtn.textContent="Toggle Temperature";
     toggleBtn.addEventListener("click",(e)=>{
+        let newTemp=temp;
         if(deg==='F'){
             deg='C'
-            const newTemp = (temp - 32) * 5/9;
-            temperature.textContent=`Temperature: ${newTemp}&deg;C`;
+            newTemp = (temp - 32) * 5/9;
         }else{
             deg='F';
-            const newTemp = (temp * 9/5) + 32;
-            temperature.textContent=`Temperature: ${newTemp}&deg;F`;
+            newTemp = (temp * 9/5) + 32;
         }
-        renderData();
+        renderData(address,newTemp,conditions,feelslike,humidity,windSpeed);
     });
-    
+
     info.appendChild(addressDiv);
     info.appendChild(temperatureDiv);
     info.appendChild(conditionsDiv);
@@ -46,7 +47,7 @@ async function getData(givenLocation){
     try{
         const response= await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${givenLocation}?key=YDSZM2UZ8BWQ68SZFD5KMCMCS`);
         const usefulData = await getUsefulData(response);
-        renderData(usefulData.address,usefulData.temperature,usefulData.conditions,usefulData.feelslike,usefulData.humidity,usefulData.windSpeed,usefulData.toggleBtn);
+        renderData(usefulData.address,usefulData.temperature,usefulData.conditions,usefulData.feelslike,usefulData.humidity,usefulData.windspeed,usefulData.toggleBtn);
     }catch(error){
         console.log(error);
     }
@@ -60,13 +61,13 @@ async function getUsefulData(response){
                 conditions: data.currentConditions.conditions,
                 feelslike: data.currentConditions.feelslike,
                 humidity: data.currentConditions.humidity,
-                windSpeed: data.currentConditions.windSpeed
+                windspeed: data.currentConditions.windspeed
         };
     }catch(error){
         console.log(error);
     }
 }
 LocationSubmitBtn.addEventListener("click",(e)=>{
-    renderData(Inputlocation.value);
+    getData(Inputlocation.value);
 
 })
